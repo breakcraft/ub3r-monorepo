@@ -2,18 +2,18 @@ version: '3.7'
 
 services:
   mysql: # A MySQL instance for the game server to use
-    image: mysql:5.7
+    image: mysql:8.0
     restart: always
     networks:
       # Added the network bridge, so server and database can communicate
       front:
-        ipv4_address: 172.16.238.10
+        ipv4_address: 127.0.0.1
     environment:
       # Configured the database credentials
       # Refer to https://hub.docker.com/_/mysql for more info.
       MYSQL_DATABASE: dodiannet
-      MYSQL_USER: dodian
-      MYSQL_PASSWORD: dodian_local_development_123
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 12345
       MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
     ports:
       - '3306:3306'

@@ -159,7 +159,7 @@ final class ObjectManager {
                                         boolean flag = true;
                                         if (l18 == 0 && aByteArrayArrayArray136[l][l6][k17] != 0)
                                             flag = false;
-                                        if (i19 > 0 && !Flo.underlays[i19 - 1].occlude)
+                                        if (i19 > 0 && !Flo.underlays[i19 - 1].isOcclude())
                                             flag = false;
                                         if (flag && j19 == k19 && j19 == l19 && j19 == i20)
                                             anIntArrayArrayArray135[l][l6][k17] |= 0x924;

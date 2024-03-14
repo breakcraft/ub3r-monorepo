@@ -48,15 +48,19 @@ public final class RSInterface {
 
             }
             int k1 = stream.readUnsignedByte();
+
+            // RSInterface.java
             if (k1 > 0) {
                 rsInterface.scripts = new int[k1][];
                 for (int l1 = 0; l1 < k1; l1++) {
                     int i3 = stream.readUnsignedWord();
+                    // Allocate memory for the sub-array before populating it
                     rsInterface.scripts[l1] = new int[i3];
-                    for (int l4 = 0; l4 < i3; l4++)
+                    for (int l4 = 0; l4 < i3; l4++) {
                         rsInterface.scripts[l1][l4] = stream.readUnsignedWord();
-
+                    }
                 }
+
 
             }
             if (rsInterface.type == 0) {

@@ -1,5 +1,9 @@
 package net.dodian.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.stream.IntStream;
+
 public final class Flo {
 
     public boolean occlude;
@@ -13,12 +17,9 @@ public final class Flo {
     // Constructor, getters, setters, and other methods...
     public static Flo[] underlays;
     public static Flo[] overlays;
-
-        public Flo() {
-            occlude = true; // or false, depending on the desired default value
-        }
-
-
+    public Flo() {
+        occlude = true; // or false, depending on the desired default value
+    }
     public boolean isOcclude() {
         return occlude;
     }
@@ -33,22 +34,66 @@ public final class Flo {
     private Flo(boolean occlude) {
     }
 
-    public static void unpackConfig(StreamLoader streamLoader) {
-        Stream stream = new Stream(streamLoader.getDataForName("flo.dat"));
+
+
+public class ConfigUnpacker {
+    private static final Logger logger = LoggerFactory.getLogger(ConfigUnpacker.class);
+
+    public static void unpackConfig(StreamLoader streamLoader, String fileName) {
+        byte[] data = null;
+        try {
+            data = loadData(streamLoader, fileName);
+        } catch (IllegalArgumentException e) {
+            logger.error("Data loading error for {}: {}", fileName, e.getMessage());
+            return;
+        }
+
+        try {
+            processConfigData(data);
+        } catch (Exception e) {
+            logger.error("An error occurred while unpacking config for {}: {}", fileName, e.getMessage());
+        }
+    }
+
+    private static byte[] loadData(StreamLoader streamLoader, String fileName) {
+        byte[] data = streamLoader.getDataForName(fileName);
+        if (data == null) {
+            throw new IllegalArgumentException("Data for " + fileName + " is not available or is invalid.");
+        }
+        return data;
+    }
+
+    private static void processConfigData(byte[] data) {
+        Stream stream = new Stream(data);
         underlays = unpackFlo(stream, true);
         overlays = unpackFlo(stream, false);
     }
 
-    private static Flo[] unpackFlo(Stream stream, boolean isUnderlay) {
-        int count = stream.readUnsignedWord();
-        System.out.println("Loaded: " + count + " " + (isUnderlay ? "underlays" : "overlays"));
-        Flo[] floors = new Flo[count];
-        for (int i = 0; i < count; i++) {
-            floors[i] = new Flo();
-            floors[i].readValues(stream, isUnderlay);
-        }
-        return floors;
+    // Assuming unpackFlo is defined elsewhere
+}
+
+
+
+private static Flo[] unpackFlo(Stream stream, boolean isUnderlay) {
+    if (stream == null) {
+        throw new IllegalArgumentException("Stream cannot be null");
     }
+
+    int count = stream.readUnsignedWord();
+    Flo[] floors = new Flo[count];
+    for (int i = 0; i < count; i++) {
+        floors[i] = new Flo();
+        floors[i].readValues(stream, isUnderlay);
+    }
+    return floors;
+}
+
+private static void logError(String message, Exception e) {
+    // Placeholder for actual logging
+    // if (log.isErrorEnabled()) {
+    //     log.error(message, e);
+    // }
+}
 
     private void readValues(Stream stream, boolean isUnderlay) {
         int opcode;

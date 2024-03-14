@@ -36,9 +36,11 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
     implementation("org.apache.commons:commons-compress:1.21")
     implementation("org.quartz-scheduler:quartz:2.3.2")
+    implementation ("io.github.cdimascio:dotenv-java:2.2.4")
 
     implementation("mysql:mysql-connector-java:8.0.29")
     implementation("org.mybatis:mybatis:3.5.10")
+
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

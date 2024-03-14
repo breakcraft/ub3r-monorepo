@@ -65,7 +65,7 @@ volumes:
 
 services:
   mysql: # A MySQL instance for the game server to use
-    image: mysql:5.7
+    image: mysql:8.0
     restart: always
     environment:
       # Configured the database credentials
